@@ -1,32 +1,29 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
     public String getResult(String sentence) {
-        List<Input> list = getInputListSortedByFrequency(sentence);
+        List<Entry<String, Integer>> list = getInputListSortedByFrequency(sentence);
 
         return getStringFromInputList(list);
     }
 
-    private List<Input> getInputListSortedByFrequency(String sentence) {
+    private List<Entry<String, Integer>> getInputListSortedByFrequency(String sentence) {
         Map<String, Integer> wordMap = getWordFrequencyMap(sentence);
-
-        List<Input> list = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
-            Input input = new Input(entry.getKey(), entry.getValue());
-            list.add(input);
-        }
-
-        list.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
+        List<Entry<String, Integer>> list = new ArrayList<>(wordMap.entrySet());
+        list.sort((w1, w2) -> w2.getValue() - w1.getValue());
         return list;
     }
 
-    private String getStringFromInputList(List<Input> list) {
-        StringJoiner joiner = new StringJoiner("\n");
-        for (Input w : list) {
-            String s = w.getValue() + " " + w.getWordCount();
-            joiner.add(s);
-        }
-        return joiner.toString();
+
+    private String getStringFromInputList(List<Entry<String, Integer>> list) {
+        return list.stream()
+                .map(word -> String.format("%s %d", word.getKey(), word.getValue()))
+                .collect(Collectors.joining("\n"));
     }
 
     private Map<String, Integer> getWordFrequencyMap(String sentence) {
