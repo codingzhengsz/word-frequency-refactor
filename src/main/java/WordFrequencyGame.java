@@ -4,16 +4,7 @@ public class WordFrequencyGame {
     public String getResult(String sentence) {
 
 
-        String[] words = sentence.split("\\s+");
-
-        Map<String, Integer> wordMap = new HashMap<>();
-        for (String word : words) {
-            if (wordMap.containsKey(word)) {
-                wordMap.put(word, wordMap.get(word) + 1);
-            } else {
-                wordMap.put(word, 1);
-            }
-        }
+        Map<String, Integer> wordMap = getWordFrequencyMap(sentence);
 
         List<Input> list = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
@@ -31,18 +22,18 @@ public class WordFrequencyGame {
         return joiner.toString();
     }
 
-    private Map<String, List<Input>> getListMap(List<Input> inputList) {
-        Map<String, List<Input>> map = new HashMap<>();
-        for (Input input : inputList) {
-//       map.computeIfAbsent(input.getValue(), k -> new ArrayList<>()).add(input);
-            if (!map.containsKey(input.getValue())) {
-                ArrayList arr = new ArrayList<>();
-                arr.add(input);
-                map.put(input.getValue(), arr);
+    private Map<String, Integer> getWordFrequencyMap(String sentence) {
+        String[] words = sentence.split("\\s+");
+
+        Map<String, Integer> wordMap = new HashMap<>();
+        for (String word : words) {
+            if (wordMap.containsKey(word)) {
+                wordMap.put(word, wordMap.get(word) + 1);
             } else {
-                map.get(input.getValue()).add(input);
+                wordMap.put(word, 1);
             }
         }
-        return map;
+        return wordMap;
     }
+
 }
