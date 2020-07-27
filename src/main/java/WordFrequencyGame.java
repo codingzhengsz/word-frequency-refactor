@@ -2,8 +2,12 @@ import java.util.*;
 
 public class WordFrequencyGame {
     public String getResult(String sentence) {
+        List<Input> list = getInputListSortedByFrequency(sentence);
 
+        return getStringFromInputList(list);
+    }
 
+    private List<Input> getInputListSortedByFrequency(String sentence) {
         Map<String, Integer> wordMap = getWordFrequencyMap(sentence);
 
         List<Input> list = new ArrayList<>();
@@ -13,8 +17,7 @@ public class WordFrequencyGame {
         }
 
         list.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
-
-        return getStringFromInputList(list);
+        return list;
     }
 
     private String getStringFromInputList(List<Input> list) {
